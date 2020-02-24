@@ -8,7 +8,7 @@ else(APPLE)
 endif(APPLE)
 
 add_executable(evfibers_test ${TEST_SOURCES})
-target_link_libraries(evfibers_test evfibers check m ${FBR_TEST_RTLIB})
+target_link_libraries(evfibers_test eventfibers check m ${FBR_TEST_RTLIB})
 enable_testing()
 add_test(evfibers_test ${CMAKE_CURRENT_BINARY_DIR}/evfibers_test)
 add_custom_target(tests COMMAND ${CMAKE_CTEST_COMMAND}

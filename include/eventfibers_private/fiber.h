@@ -24,9 +24,10 @@
 #include <unistd.h>
 #include <stdint.h>
 #include <sys/queue.h>
-#include <evfibers/fiber.h>
-#include <evfibers_private/trace.h>
+#include <eventfibers/fiber.h>
+#include <eventfibers_private/trace.h>
 #include <coro.h>
+
 #define max(a,b) ({						\
 		const typeof(a) __tmp_a = (a);			\
 		const typeof(b) __tmp_b = (b);			\
@@ -181,14 +182,14 @@ struct fbr_context_private {
 	struct fbr_stack_item *sp;
 	struct fbr_fiber root;
 	struct fiber_list reclaimed;
-	struct ev_async pending_async;
+	/* struct ev_async pending_async; */ /* TODO: port ev_async */
 	struct fbr_id_tailq pending_fibers;
 	int backtraces_enabled;
 	uint64_t last_id;
 	uint64_t key_free_mask;
 	const char *buffer_file_pattern;
 
-	struct ev_loop *loop;
+	struct event_base *loop;
 };
 
 struct fbr_mq {

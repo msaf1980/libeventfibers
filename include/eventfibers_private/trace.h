@@ -19,7 +19,7 @@
 #ifndef _FBR_TRACE_PRIVATE_H_
 #define _FBR_TRACE_PRIVATE_H_
 
-#include <evfibers/fiber.h>
+#include <eventfibers/fiber.h>
 
 #define TRACE_SIZE 16
 

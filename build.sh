@@ -23,17 +23,8 @@ do
 		rel*)
 			BUILD_TYPE=RelWithDebInfo
 			;;
-		+eio)
-			EIO="-DWANT_EIO=TRUE"
-			;;
 		+valgrind)
 			VALGRIND="-DWANT_VALGRIND=TRUE"
-			;;
-		+eioe)
-			EIO="-DWANT_EIO=TRUE -DWANT_EMBEDDED_EIO=TRUE"
-			;;
-		-eio)
-			EIO="-DWANT_EIO=FALSE"
 			;;
 		cov*)
 			CC=gcc
@@ -58,9 +49,9 @@ export LD
 export CC
 export CFLAGS
 
-echo cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE $EIO $VALGRIND ..
+echo cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE $VALGRIND ..
 echo
-cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE $EIO $VALGRIND ..
+cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE $VALGRIND ..
 echo
 
 make

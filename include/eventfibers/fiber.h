@@ -134,7 +134,7 @@
 #ifndef _FBR_FIBER_H_
 #define _FBR_FIBER_H_
 /**
- * @file evfibers/fiber.h
+ * @file eventfibers/fiber.h
  * This file contains all client-visible API functions for working with fibers.
  */
 
@@ -153,7 +153,7 @@ extern "C" {
 #include <assert.h>
 #include <ev.h>
 
-#include <evfibers/config.h>
+#include <eventfibers/config.h>
 
 /**
  * Maximum allowed level of fbr_transfer nesting within fibers.
@@ -235,7 +235,7 @@ enum fbr_error_code {
 	FBR_ENOKEY,
 	FBR_EPROTOBUF,
 	FBR_EBUFFERNOSPACE,
-	FBR_EEIO,
+	/* FBR_EEIO, */ /* TODO: port libeio */
 };
 
 /**
@@ -388,7 +388,7 @@ enum fbr_ev_type {
 	FBR_EV_WATCHER = 1, /*!< libev watcher event */
 	FBR_EV_MUTEX, /*!< fbr_mutex event */
 	FBR_EV_COND_VAR, /*!< fbr_cond_var event */
-	FBR_EV_EIO, /*!< libeio event */
+	/* FBR_EV_EIO, */ /*!< libeio event */ /* TODO: port libeio */
 };
 
 struct fbr_ev_base;

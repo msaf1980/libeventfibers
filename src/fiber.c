@@ -16,7 +16,7 @@
 
  ********************************************************************/
 
-#include <evfibers/config.h>
+#include <eventibers/config.h>
 
 #include <sys/mman.h>
 #include <fcntl.h>
@@ -834,7 +834,7 @@ int fbr_fd_nonblock(FBR_P_ int fd)
 	return_success(0);
 }
 
-static void ev_base_init(FBR_P_ struct fbr_ev_base *ev,
+static void fbr_ev_base_init(FBR_P_ struct fbr_ev_base *ev,
 		enum fbr_ev_type type)
 {
 	memset(ev, 0x00, sizeof(*ev));

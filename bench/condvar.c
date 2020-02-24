@@ -23,7 +23,8 @@
 #include <unistd.h>
 #include <ev.h>
 #include <errno.h>
-#include <evfibers_private/fiber.h>
+#include <event2/event.h>
+#include <eventfibers_private/fiber.h>
 
 struct fiber_arg {
 	struct fbr_mutex mutex1;
@@ -80,7 +81,7 @@ static void stats_fiber(FBR_P_ void *_arg)
 		diff = arg->count - last;
 		printf("%zd\n", diff);
 		if (count++ > max_samples) {
-			ev_break(fctx->__p->loop, EVBREAK_ALL);
+			event_base_loopexit(fctx->__p->loop, NULL);
 		}
 	}
 }

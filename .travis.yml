@@ -8,8 +8,8 @@ compiler:
         - clang
         - gcc
 env:
-        - BUILD_TYPE=RelWithDebInfo EIO="-DWANT_EIO=TRUE -DWANT_EMBEDDED_EIO=TRUE"
-        - BUILD_TYPE=RelWithDebInfo EIO="-DWANT_EIO=FALSE"
+        - BUILD_TYPE=RelWithDebInfo
+        - BUILD_TYPE=RelWithDebInfo
 # gcc is symlinked to clang on OSX - could install with homebrew and fiddle
 # with paths to make sure the one we want is being used, but save that for
 # another day if interest arises

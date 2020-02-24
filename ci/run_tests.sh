@@ -9,9 +9,9 @@ mkdir build
 
 pushd build
 
-echo cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE $EIO ..
+echo cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE ..
 echo
-cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE $EIO ..
+cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE ..
 echo
 
 make
