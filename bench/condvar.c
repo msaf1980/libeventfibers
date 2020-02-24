@@ -24,6 +24,7 @@
 #include <ev.h>
 #include <errno.h>
 #include <event2/event.h>
+#include <eventfibers/fiber.h>
 #include <eventfibers_private/fiber.h>
 
 struct fiber_arg {
