@@ -34,9 +34,11 @@
 #define VALGRIND_STACK_REGISTER(a,b) (void)0
 #endif
 
+/* TODO: port libeio
 #ifdef FBR_EIO_ENABLED
 #include <evfibers/eio.h>
 #endif
+*/
 #include <evfibers_private/fiber.h>
 
 #ifndef LIST_FOREACH_SAFE
@@ -101,41 +103,41 @@ static int fbr_id_unpack(FBR_P_ struct fbr_fiber **ptr, fbr_id_t id)
 	return 0;
 }
 
-static void pending_async_cb(EV_P_ ev_async *w, _unused_ int revents)
-{
-	struct fbr_context *fctx;
-	struct fbr_id_tailq_i *item;
-	fctx = (struct fbr_context *)w->data;
-	int retval;
-
-	ENSURE_ROOT_FIBER;
-
-	if (TAILQ_EMPTY(&fctx->__p->pending_fibers)) {
-		ev_async_stop(EV_A_ &fctx->__p->pending_async);
-		return;
-	}
-
-	item = TAILQ_FIRST(&fctx->__p->pending_fibers);
-	assert(item->head == &fctx->__p->pending_fibers);
-	/* item shall be removed from the queue by a destructor, which shall be
-	 * set by the procedure demanding delayed execution. Destructor
-	 * guarantees removal upon the reclaim of fiber. */
-	ev_async_send(EV_A_ &fctx->__p->pending_async);
-
-	retval = fbr_transfer(FBR_A_ item->id);
-	if (-1 == retval && FBR_ENOFIBER != fctx->f_errno) {
-		fbr_log_e(FBR_A_ "libevfibers: unexpected error trying to call"
-				" a fiber by id: %s",
-				fbr_strerror(FBR_A_ fctx->f_errno));
-	}
-}
+//static void pending_async_cb(ev_p_ ev_async *w, _unused_ int revents)
+//{
+//	struct fbr_context *fctx;
+//	struct fbr_id_tailq_i *item;
+//	fctx = (struct fbr_context *)w->data;
+//	int retval;
+//
+//	ensure_root_fiber;
+//
+//	if (tailq_empty(&fctx->__p->pending_fibers)) {
+//		ev_async_stop(ev_a_ &fctx->__p->pending_async);
+//		return;
+//	}
+//
+//	item = tailq_first(&fctx->__p->pending_fibers);
+//	assert(item->head == &fctx->__p->pending_fibers);
+//	/* item shall be removed from the queue by a destructor, which shall be
+//	 * set by the procedure demanding delayed execution. Destructor
+//	 * guarantees removal upon the reclaim of fiber. */
+//	ev_async_send(EV_A_ &fctx->__p->pending_async);
+//
+//	retval = fbr_transfer(FBR_A_ item->id);
+//	if (-1 == retval && FBR_ENOFIBER != fctx->f_errno) {
+//		fbr_log_e(FBR_A_ "libevfibers: unexpected error trying to call"
+//				" a fiber by id: %s",
+//				fbr_strerror(FBR_A_ fctx->f_errno));
+//	}
+//}
 
 static void *allocate_in_fiber(FBR_P_ size_t size, struct fbr_fiber *in)
 {
 	struct mem_pool *pool_entry;
 	pool_entry = malloc(size + sizeof(struct mem_pool));
 	if (NULL == pool_entry) {
-		fbr_log_e(FBR_A_ "libevfibers: unable to allocate %zu bytes\n",
+		fbr_log_e(FBR_A_ "libeventfibers: unable to allocate %zu bytes\n",
 				size + sizeof(struct mem_pool));
 		abort();
 	}
@@ -191,7 +193,7 @@ static void stdio_logger(FBR_P_ struct fbr_logger *logger,
 	fprintf(stream, "\n");
 }
 
-void fbr_init(FBR_P_ struct ev_loop *loop)
+void fbr_init(FBR_P_ struct event_base *loop)
 {
 	struct fbr_fiber *root;
 	struct fbr_logger *logger;
